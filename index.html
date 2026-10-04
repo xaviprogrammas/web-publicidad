@@ -1,16 +1,736 @@
 <!DOCTYPE html>
-
-<html lang="en">
-    
+<html lang="es">
 <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Autolack</title>
-        <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AUTOLACK | Expertos en Retoque Automotriz</title>
+    <!-- Iconos Phosphor -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        :root {
+            --bg-main: #07090E;
+            --bg-card: #121620;
+            --bg-card-hover: #1A202C;
+            --bg-nav: rgba(7, 9, 14, 0.9);
+            --primary: #00E5FF; /* Cyan neón hipertecnológico */
+            --primary-glow: rgba(0, 229, 255, 0.4);
+            --gold: #FFD700;    /* Dorado de lujo */
+            --gold-glow: rgba(255, 215, 0, 0.3);
+            --wa-green: #25D366;
+            --wa-glow: rgba(37, 211, 102, 0.5);
+            --text-white: #FFFFFF;
+            --text-gray: #A0AAB8;
+            --font-main: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-white);
+            font-family: var(--font-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 8%;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: var(--bg-nav);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-white);
+            text-transform: uppercase;
+        }
+
+        .logo span {
+            color: var(--primary);
+            text-shadow: 0 0 12px var(--primary-glow);
+        }
+
+        .navbar nav {
+            display: flex;
+            gap: 25px;
+        }
+
+        .navbar nav a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .navbar nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+            box-shadow: 0 0 8px var(--primary);
+        }
+
+        .navbar nav a:hover {
+            color: var(--text-white);
+        }
+
+        .navbar nav a:hover::after {
+            width: 100%;
+        }
+
+        .btn-nav-wa {
+            background: transparent;
+            border: 2px solid var(--wa-green);
+            color: var(--wa-green);
+            padding: 8px 22px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        .btn-nav-wa:hover {
+            background: var(--wa-green);
+            color: #000;
+            box-shadow: 0 0 20px var(--wa-glow);
+            transform: translateY(-2px);
+        }
+
+        .hero {
+            min-height: 100vh;
+            background: radial-gradient(circle at 50% 30%, #151d2a 0%, var(--bg-main) 70%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 8% 60px 8%;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        /* Rejilla de luz futurista */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                linear-gradient(rgba(0, 229, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 950px;
+            animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .badge {
+            background: rgba(0, 229, 255, 0.08);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            display: inline-block;
+            margin-bottom: 25px;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, #FFF 30%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-gray);
+            margin-bottom: 40px;
+            max-width: 750px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #25D366 0%, #1DA851 100%);
+            color: #000;
+            padding: 18px 38px;
+            border-radius: 50px;
+            font-weight: 800;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 25px var(--wa-glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 8px 35px var(--wa-glow);
+            color: #000;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-white);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 18px 38px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: var(--text-white);
+            transform: translateY(-4px);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            padding: 50px 8%;
+            background: var(--bg-card);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+
+        .stat-card {
+            padding: 15px;
+        }
+
+        .stat-card h3 {
+            font-size: 3rem;
+            color: var(--gold);
+            font-weight: 900;
+            margin-bottom: 5px;
+            text-shadow: 0 0 15px var(--gold-glow);
+        }
+
+        .stat-card p {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+
+        .services {
+            padding: 120px 8%;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 70px;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section-header h2 span {
+            color: var(--primary);
+            text-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .section-header p {
+            color: var(--text-gray);
+            max-width: 650px;
+            margin: 15px auto 0;
+            font-size: 1.1rem;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 35px;
+            perspective: 1000px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            padding: 40px 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Borde resplandeciente superior */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .card:hover {
+            transform: translateY(-12px) rotateX(4deg);
+            background: var(--bg-card-hover);
+            border-color: rgba(0, 229, 255, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 30px var(--primary-glow);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 25px;
+            display: inline-block;
+            transition: transform 0.4s ease;
+        }
+
+        .card:hover .card-icon {
+            transform: scale(1.15) rotate(-5deg);
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+
+        .card p {
+            color: var(--text-gray);
+            font-size: 0.98rem;
+            margin-bottom: 30px;
+            line-height: 1.7;
+        }
+
+        .card-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: gap 0.3s ease;
+            margin-top: auto;
+        }
+
+        .card-link:hover {
+            gap: 14px;
+            color: var(--text-white);
+        }
+
+        .why-us {
+            padding: 100px 8%;
+            background: linear-gradient(180deg, var(--bg-main) 0%, #0d121c 100%);
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .why-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            border-color: rgba(255, 215, 0, 0.3);
+            background: rgba(255, 255, 255, 0.04);
+            transform: translateX(5px);
+        }
+
+        .feature-item i {
+            font-size: 2.2rem;
+            color: var(--gold);
+            background: rgba(255, 215, 0, 0.1);
+            padding: 14px;
+            border-radius: 14px;
+            box-shadow: 0 0 15px var(--gold-glow);
+        }
+
+        .feature-item h4 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            font-weight: 800;
+        }
+
+        .feature-item p {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+        }
+
+        .cta-banner {
+            padding: 100px 8%;
+            text-align: center;
+            background: radial-gradient(circle at center, #132233 0%, var(--bg-main) 100%);
+            border-top: 1px solid rgba(0, 229, 255, 0.2);
+            border-bottom: 1px solid rgba(0, 229, 255, 0.1);
+            position: relative;
+        }
+
+        .cta-banner h2 {
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
+            margin-bottom: 20px;
+            font-weight: 900;
+        }
+
+        .cta-banner p {
+            color: var(--text-gray);
+            margin-bottom: 40px;
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .float-wa {
+            position: fixed;
+            bottom: 35px;
+            right: 35px;
+            background: linear-gradient(135deg, #25D366 0%, #1DA851 100%);
+            color: #FFF;
+            border-radius: 50px;
+            width: 65px;
+            height: 65px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 36px;
+            box-shadow: 0px 5px 25px var(--wa-glow);
+            z-index: 1000;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .float-wa:hover {
+            transform: scale(1.15) rotate(8deg);
+            color: #FFF;
+        }
+
+        .pulse {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--wa-green);
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0.7;
+            animation: pulseAnimation 2s infinite;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulseAnimation {
+            0% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(1.7);
+                opacity: 0;
+            }
+        }
+
+        footer {
+            text-align: center;
+            padding: 35px 8%;
+            background: #040508;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        @media (max-width: 900px) {
+            .navbar nav {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.05rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .float-wa {
+                bottom: 25px;
+                right: 25px;
+                width: 55px;
+                height: 55px;
+                font-size: 30px;
+            }
+        }
+    </style>
 </head>
 <body>
-<h1>Welcome to Autolack</h1>
+
+    <header class="navbar">
+        <div class="logo">
+            <i class="ph-bold ph-car-profile" style="color: var(--primary);"></i> AUTO<span>LACK</span>
+        </div>
+        <nav>
+            <a href="#servicios">Servicios</a>
+            <a href="#nosotros">Nosotros</a>
+            <a href="#contacto">Contacto</a>
+        </nav>
+        <a href="https://wa.me/+593984995696?text=Hola,%20quisiera%20cotizar%20un%20servicio%20para%20mi%20veh%C3%ADculo." target="_blank" class="btn-nav-wa">
+            <i class="ph-bold ph-whatsapp-logo" style="font-size: 1.2rem;"></i> Cotizar
+        </a>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <span class="badge">AUTOLACK EXPERTOS EN RETOQUE AUTOMOTRIZ</span>
+            <h1>RESTAURAMOS EL <span>BRILLO Y LA PERFECCIÓN</span> DE TU VEHÍCULO</h1>
+            <p>Especialistas en Detailing Premium, pulido cerámico 9H, eliminación de microrrayones y reparación experta de abolladuras sin pintar (PDR).</p>
+            <div class="hero-buttons">
+                <a href="https://wa.me/+593984995696?text=Hola,%20quiero%20agendar%20un%20turno%20o%20recibir%20informaci%C3%B3n." target="_blank" class="btn-primary">
+                    <i class="ph-bold ph-whatsapp-logo" style="font-size: 1.4rem;"></i> Agendar Turno por WhatsApp
+                </a>
+                <a href="#servicios" class="btn-secondary">Ver Servicios</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="stat-card">
+            <h3>+800</h3>
+            <p>Vehículos Restaurados</p>
+        </div>
+        <div class="stat-card">
+            <h3>100%</h3>
+            <p>Acabado de Exhibición</p>
+        </div>
+        <div class="stat-card">
+            <h3>9H+</h3>
+            <p>Protección Cerámica</p>
+        </div>
+        <div class="stat-card">
+            <h3>PDR</h3>
+            <p>Saca Bollos Sin Pintar</p>
+        </div>
+    </section>
+
+    <section id="servicios" class="services">
+        <div class="section-header">
+            <h2>NUESTROS SERVICIOS <span>ESPECIALIZADOS</span></h2>
+            <p>Tecnología de punta y devoción artesanal para devolverle a tu automóvil el valor y aspecto de cero kilómetros.</p>
+        </div>
+
+        <div class="cards-grid">
+            <!-- Servicio 1 -->
+            <div class="card">
+                <div>
+                    <div class="card-icon"><i class="ph-bold ph-sparkle"></i></div>
+                    <h3>Detailing & Correcion de Pintura</h3>
+                    <p>Corrección multietapa de micro-rayones (swirls), desratado de laca y aplicación de tratamiento cerámico o acrílico de máxima durabilidad.</p>
+                </div>
+                <a href="https://wa.me/+593984995696?text=Hola,%20me%20interesa%20el%20servicio%20de%20Detailing%20y%20Pulido%20Cer%C3%A1mico." class="card-link" target="_blank">
+                    Consultar por WhatsApp <i class="ph-bold ph-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Servicio 2 -->
+            <div class="card">
+                <div>
+                    <div class="card-icon"><i class="ph-bold ph-hammer"></i></div>
+                    <h3>Reparación de Abolladuras (PDR)</h3>
+                    <p>Técnica desabolladora artesanal (Paintless Dent Repair) para eliminar golpes de puertas, estacionamiento y granizo conservando la pintura original.</p>
+                </div>
+                <a href="https://wa.me/+593984995696?text=Hola,%20necesito%20reparar%20una%20abolladura/golpe%20en%20mi%20auto." class="card-link" target="_blank">
+                    Consultar por WhatsApp <i class="ph-bold ph-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Servicio 3 -->
+            <div class="card">
+                <div>
+                    <div class="card-icon"><i class="ph-bold ph-paint-brush-broad"></i></div>
+                    <h3>Retoque Express & Pintura</h3>
+                    <p>Restauración rápida de paragolpes raspados, rayones profundos y piezas dañadas con pintura matizada por computador de precisión exacta.</p>
+                </div>
+                <a href="https://wa.me/+593984995696?text=Hola,%20quisiera%20cotizar%20un%20retoque%20de%20pintura." class="card-link" target="_blank">
+                    Consultar por WhatsApp <i class="ph-bold ph-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Servicio 4 -->
+            <div class="card">
+                <div>
+                    <div class="card-icon"><i class="ph-bold ph-armchair"></i></div>
+                    <h3>Limpieza & Nutrición de Interior</h3>
+                    <p>Desinfección a vapor de alta temperatura, lavado de tapizados, hidratación de cueros y eliminación completa de malos olores y bacterias.</p>
+                </div>
+                <a href="https://wa.me/+593984995696?text=Hola,%20quiero%20informaci%C3%B3n%20sobre%20la%20limpieza%20de%20interiores." class="card-link" target="_blank">
+                    Consultar por WhatsApp <i class="ph-bold ph-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="nosotros" class="why-us">
+        <div class="why-container">
+            <div class="section-header">
+                <h2>¿POR QUÉ ELEGIR <span>AUTOLACK</span>?</h2>
+                <p>Nos obsesiona la perfección en cada centímetro de la carrocería de tu vehículo.</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-item">
+                    <i class="ph-bold ph-shield-check"></i>
+                    <div>
+                        <h4>Insumos 100% Importados</h4>
+                        <p>Utilizamos selladores, cerámicas y compuestos de pulido líderes a nivel internacional.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <i class="ph-bold ph-camera"></i>
+                    <div>
+                        <h4>Presupuesto por Foto/Video</h4>
+                        <p>Envíanos fotos del daño o estado de tu auto y te responderemos inmediatamente con una estimación.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <i class="ph-bold ph-certificate"></i>
+                    <div>
+                        <h4>Técnicos Certificados</h4>
+                        <p>Años de experiencia especializada en restauración estética de marcas de lujo y gama media.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto" class="cta-banner">
+        <h2>¿Listo para ver tu auto deslumbrar como nuevo?</h2>
+        <p>Envíanos una foto del detalle, golpe o rayón y te damos un diagnóstico rápido sin compromiso.</p>
+        <a href="https://wa.me/+593984995696?text=Hola!%20Te%20adjunto%20fotos%20de%20mi%20veh%C3%ADculo%20para%20cotizar." target="_blank" class="btn-primary">
+            <i class="ph-bold ph-whatsapp-logo" style="font-size: 1.4rem;"></i> Enviar Foto por WhatsApp
+        </a>
+    </section>
+
+    <a href="https://wa.me/+593984995696?text=Hola,%20quisiera%20hacer%20una%20consulta" class="float-wa" target="_blank" aria-label="Contacto directo por WhatsApp">
+        <i class="ph-bold ph-whatsapp-logo"></i>
+        <span class="pulse"></span>
+    </a>
+
+    <footer>
+        <p>&copy; 2026 AUTOLACK - Expertos en Retoque Automotriz. Todos los derechos reservados.</p>
+    </footer>
 
 </body>
 </html>
-
